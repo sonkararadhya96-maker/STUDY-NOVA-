@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="StudyNova is a free all-in-one student study hub featuring a scientific calculator, step-by-step math solver, formula reference bank, printable question paper generator, English grammar checker, and multi-chapter book studio." />
+  <meta name="keywords" content="StudyNova, study hub, scientific calculator, step-by-step math solver, question paper generator, grammar checker, study notes" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="StudyNova — All-in-One Study Hub, Calculator & Exam Toolkit" />
+  <meta property="og:description" content="Free student study hub with step-by-step math solvers, study formulas, printable question papers, grammar checker, and book studio." />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://sonkararadhya96-maker.github.io/STUDY-NOVA-/" />
+  <meta name="theme-color" content="#4f46e5" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="StudyNova" />
+  <link id="pwaManifestLink" rel="manifest" href="./manifest.json" />
+  <title>StudyNova — All-in-One Study Hub, Calculator & Exam Toolkit</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.78);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+    }
+    .light .glass-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(203, 213, 225, 0.8);
+    }
+    .mobile-app-frame {
+      max-width: 420px !important;
+      margin: 16px auto !important;
+      border: 8px solid #1e293b !important;
+      border-radius: 36px !important;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85) !important;
+      overflow-x: hidden !important;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; color: black !important; }
+      .print-sheet { border: none !important; box-shadow: none !important; background: white !important; color: black !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen transition-colors duration-200">
+
+  <!-- Toast Notification -->
+  <div id="toastBox" class="fixed bottom-5 right-5 z-50 hidden px-4 py-3 rounded-xl bg-indigo-600 text-white text-sm font-medium shadow-xl border border-indigo-400/30 transition-all"></div>
+
+  <!-- Top Header -->
+  <header class="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div id="brandLogoIcon" class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/20 font-extrabold text-white text-lg">
+          S
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 id="brandTitleText" class="text-lg sm:text-xl font-bold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-cyan-300 bg-clip-text text-transparent">
+              StudyNova
+            </h1>
+            <select id="brandNamePicker" onchange="changeSiteBrand(this.value)" class="px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-700 text-[11px] text-slate-300 focus:outline-none focus:border-indigo-500" title="Switch Website Name">
+              <option value="StudyNova" selected>Name: StudyNova</option>
+              <option value="StudySpark">Name: StudySpark</option>
+              <option value="ScholarHub">Name: ScholarHub</option>
+              <option value="BrainBox Pro">Name: BrainBox Pro</option>
+              <option value="EduPulse">Name: EduPulse</option>
+              <option value="ApexStudy">Name: ApexStudy</option>
+            </select>
+            <span class="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              All-in-One Study Hub
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">Calculator • Math Solver • Study Material • Exam Paper Generator • Grammar & Book Studio</p>
+        </div>
+      </div>
+
+      <!-- Built-in Pomodoro Focus Timer & Controls -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs sm:text-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" id="timerDot"></span>
+          <span class="font-mono font-bold text-indigo-300" id="pomoDisplay">25:00</span>
+          <button id="pomoStartBtn" onclick="togglePomodoro()" class="px-2 py-0.5 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition">
+            Start
+          </button>
+          <button id="pomoResetBtn" onclick="resetPomodoro()" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition" title="Reset Timer">
+            ↺
+          </button>
+        </div>
+
+        <button id="voiceStopBtn" onclick="stopSpeech()" class="hidden px-3 py-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/30 text-xs font-medium transition">
+          🔇 Stop Audio
+        </button>
+        <button id="mobileViewToggleBtn" onclick="toggleMobileAppFrame()" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/30 text-xs font-semibold transition" title="Preview Mobile App Layout">
+          📱 Phone View
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 overflow-x-auto">
+      <nav class="flex items-center gap-1 sm:gap-2 py-2 min-w-max" aria-label="Main Tabs">
+        <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 bg-indigo-600 text-white shadow-md shadow-indigo-600/25">
+          <span>🏠</span> <span>Dashboard</span>
+        </button>
+        <button onclick="switchTab('calculator')" id="tab-calculator" class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span>🧮</span> <span>Calculator & Math Solver</span>
+        </button>
+        <button onclick="switchTab('study')" id="tab-study" class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span>📚</span> <span>Study Material</span>
+        </button>
+        <button onclick="switchTab('exam')" id="tab-exam" class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span>📝</span> <span>Question Paper & Quiz</span>
+        </button>
+        <button onclick="switchTab('grammar')" id="tab-grammar" class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span>✍️</span> <span>Grammar Checker</span>
+        </button>
+        <button onclick="switchTab('book')" id="tab-book" class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80">
+          <span>📖</span> <span>Book & Notes Studio</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- ==================== TAB 1: DASHBOARD ==================== -->
+    <section id="view-dashboard" class="space-y-6">
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900/90 via-slate-900 to-cyan-900/80 border border-indigo-500/30 p-6 sm:p-8 shadow-2xl">
+        <div class="max-w-3xl space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-xs font-semibold">
+            ⚡ 100% Free • No Login Required • Works Offline & Online
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+            Your Complete Study, Calculation & Writing Workspace
+          </h2>
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            Solve quadratic and linear equations step-by-step, explore verified formulas across Maths, Science, and English, generate custom printable question papers with answer keys, check grammar, and write multi-chapter books or study notes with voice read-aloud.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <button onclick="switchTab('calculator')" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 transition">
+              Open Math & Scientific Solver →
+            </button>
+            <button onclick="switchTab('study')" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold text-sm border border-slate-700 transition">
+              Browse Study Material
+            </button>
+            <button onclick="switchTab('exam')" class="px-4 py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 font-semibold text-sm border border-emerald-500/30 transition">
+              Generate Question Paper
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Formula & Concept Finder on Dashboard -->
+      <div class="glass-card rounded-2xl p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+              <span>🔍</span> Instant Concept, Formula & Voice Answer Finder
+            </h3>
+            <p class="text-xs text-slate-400">Ask or search any formula, law, grammar rule, or calculation (e.g. "Ohm's Law", "Quadratic formula", "Tenses", "Pythagoras")</p>
+          </div>
+          <button onclick="startVoiceSearch()" class="self-start sm:self-auto px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 text-xs font-semibold flex items-center gap-1.5 transition">
+            <span>🎤</span> <span id="voiceSearchLabel">Speak Query</span>
+          </button>
+        </div>
+        <div class="flex gap-2">
+          <input id="quickQueryInput" type="text" placeholder="Type a topic, math expression (e.g. 25 * 16 + 40), or formula name..." onkeydown="if(event.key==='Enter') runQuickAssistant()" class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-100 text-sm focus:outline-none focus:border-indigo-500" />
+          <button onclick="runQuickAssistant()" class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shrink-0 transition">
+            Solve / Explain
+          </button>
+        </div>
+        <div id="quickAssistantOutput" class="hidden p-4 rounded-xl bg-slate-900/95 border border-indigo-500/30 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-400" id="qaCategory">Result</span>
+            <button onclick="speakText(document.getElementById('qaBody').innerText)" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 text-xs font-medium transition">
+              🔊 Listen Aloud
+            </button>
+          </div>
+          <h4 id="qaTitle" class="text-base font-bold text-white"></h4>
+          <div id="qaBody" class="text-sm text-slate-300 whitespace-pre-line leading-relaxed"></div>
+        </div>
+      </div>
+
+      <!-- Feature Grid Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div onclick="switchTab('calculator')" class="cursor-pointer glass-card rounded-2xl p-5 hover:border-indigo-500/50 transition group">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">🧮</div>
+          <h3 class="text-base font-bold text-white mb-1">Scientific Calculator & Step Solver</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">Evaluate complex trigonometry, logarithms, roots, quadratic equations, linear systems, geometry, and interest with full steps.</p>
+        </div>
+
+        <div onclick="switchTab('study')" class="cursor-pointer glass-card rounded-2xl p-5 hover:border-cyan-500/50 transition group">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">📚</div>
+          <h3 class="text-base font-bold text-white mb-1">Complete Study Material Bank</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">Curated formulas, laws, definitions, and examples across Maths, Physics, Chemistry, Biology, English Grammar, and GK with voice audio.</p>
+        </div>
+
+        <div onclick="switchTab('exam')" class="cursor-pointer glass-card rounded-2xl p-5 hover:border-emerald-500/50 transition group">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">📝</div>
+          <h3 class="text-base font-bold text-white mb-1">Question Paper & Quiz Generator</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">Generate custom practice exams or interactive timed quizzes with instant grading, step-by-step solutions, and print layout.</p>
+        </div>
+
+        <div onclick="switchTab('grammar')" class="cursor-pointer glass-card rounded-2xl p-5 hover:border-amber-500/50 transition group">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">✍️</div>
+          <h3 class="text-base font-bold text-white mb-1">Grammar & Writing Corrector</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">Check spelling, grammar rules, repeated words, punctuation, and sentence clarity with one-click automatic fixes.</p>
+        </div>
+
+        <div onclick="switchTab('book')" class="cursor-pointer glass-card rounded-2xl p-5 hover:border-purple-500/50 transition group">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">📖</div>
+          <h3 class="text-base font-bold text-white mb-1">Book Generator & Notes Studio</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">Generate structured multi-chapter study books or story outlines, dictate notes by voice, and export clean files anytime.</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-5 border-slate-800">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center text-xl mb-3">📊</div>
+          <h3 class="text-base font-bold text-white mb-1">Your Study Stats</h3>
+          <div class="grid grid-cols-3 gap-2 pt-2 text-center">
+            <div class="p-2 rounded-lg bg-slate-900/90">
+              <div class="text-lg font-extrabold text-indigo-400" id="statProblemsSolved">0</div>
+              <div class="text-[10px] text-slate-400">Calculations</div>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-900/90">
+              <div class="text-lg font-extrabold text-emerald-400" id="statQuizzesDone">0</div>
+              <div class="text-[10px] text-slate-400">Papers Made</div>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-900/90">
+              <div class="text-lg font-extrabold text-amber-400" id="statChaptersCount">2</div>
+              <div class="text-[10px] text-slate-400">Book Chapters</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: CALCULATOR & MATH SOLVER ==================== -->
+    <section id="view-calculator" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Scientific Calculator (Left 5 cols) -->
+        <div class="lg:col-span-5 glass-card rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🧮</span> Scientific Calculator
+            </h2>
+            <button onclick="clearCalcHistory()" class="text-xs text-slate-400 hover:text-slate-200">Clear History</button>
+          </div>
+
+          <!-- Display Screen -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-right space-y-1">
+            <div id="calcExpression" class="text-xs text-slate-400 font-mono min-h-[18px] break-all">0</div>
+            <div id="calcScreen" class="text-2xl sm:text-3xl font-extrabold text-white font-mono break-all">0</div>
+          </div>
+
+          <!-- Keypad -->
+          <div class="grid grid-cols-5 gap-2 text-sm font-semibold">
+            <button onclick="calcFunc('sin')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300">sin</button>
+            <button onclick="calcFunc('cos')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300">cos</button>
+            <button onclick="calcFunc('tan')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300">tan</button>
+            <button onclick="calcFunc('log')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300">log</button>
+            <button onclick="calcFunc('ln')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300">ln</button>
+
+            <button onclick="calcFunc('sqrt')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300">√x</button>
+            <button onclick="calcInput('^2')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300">x²</button>
+            <button onclick="calcInput('^')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300">xʸ</button>
+            <button onclick="calcInput('(')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200">(</button>
+            <button onclick="calcInput(')')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200">)</button>
+
+            <button onclick="calcInput('7')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">7</button>
+            <button onclick="calcInput('8')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">8</button>
+            <button onclick="calcInput('9')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">9</button>
+            <button onclick="calcBackspace()" class="p-3 rounded-xl bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30">⌫</button>
+            <button onclick="calcClear()" class="p-3 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/30">AC</button>
+
+            <button onclick="calcInput('4')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">4</button>
+            <button onclick="calcInput('5')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">5</button>
+            <button onclick="calcInput('6')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">6</button>
+            <button onclick="calcInput('*')" class="p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300">×</button>
+            <button onclick="calcInput('/')" class="p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300">÷</button>
+
+            <button onclick="calcInput('1')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">1</button>
+            <button onclick="calcInput('2')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">2</button>
+            <button onclick="calcInput('3')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">3</button>
+            <button onclick="calcInput('+')" class="p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300">+</button>
+            <button onclick="calcInput('-')" class="p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300">−</button>
+
+            <button onclick="calcInput('0')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">0</button>
+            <button onclick="calcInput('.')" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800">.</button>
+            <button onclick="calcInput('pi')" class="p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300">π</button>
+            <button onclick="calcEvaluate()" class="col-span-2 p-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold shadow-lg shadow-indigo-600/30">=</button>
+          </div>
+
+          <!-- History Log -->
+          <div class="pt-2">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Recent Calculations</h3>
+            <div id="calcHistoryList" class="space-y-1.5 max-h-36 overflow-y-auto text-xs text-slate-300">
+              <div class="text-slate-500 italic">No calculations yet.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step-by-Step Math Solver (Right 7 cols) -->
+        <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-5">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>📐</span> Step-by-Step Math Problem Solver
+            </h2>
+            <p class="text-xs text-slate-400">Select a problem type below to get the complete mathematical working and formula breakdown.</p>
+          </div>
+
+          <!-- Solver Mode Selector -->
+          <div class="flex flex-wrap gap-2">
+            <button onclick="switchMathMode('quadratic')" id="mathbtn-quadratic" class="math-mode-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white">Quadratic Equation (ax²+bx+c=0)</button>
+            <button onclick="switchMathMode('linear2')" id="mathbtn-linear2" class="math-mode-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">2-Variable Linear System</button>
+            <button onclick="switchMathMode('geometry')" id="mathbtn-geometry" class="math-mode-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Geometry & Mensuration</button>
+            <button onclick="switchMathMode('interest')" id="mathbtn-interest" class="math-mode-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Simple & Compound Interest</button>
+            <button onclick="switchMathMode('numbers')" id="mathbtn-numbers" class="math-mode-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">LCM, GCD & Prime Factors</button>
+          </div>
+
+          <!-- 1. Quadratic Form -->
+          <div id="mathpanel-quadratic" class="space-y-3 p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <div class="text-xs font-semibold text-indigo-300">Solve $ax^2 + bx + c = 0$ using the Quadratic Formula:</div>
+            <div class="grid grid-cols-3 gap-3">
+              <div>
+                <label class="text-xs text-slate-400 block mb-1">Coefficient a (x²)</label>
+                <input id="quadA" type="number" value="1" step="any" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+              <div>
+                <label class="text-xs text-slate-400 block mb-1">Coefficient b (x)</label>
+                <input id="quadB" type="number" value="-5" step="any" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+              <div>
+                <label class="text-xs text-slate-400 block mb-1">Constant c</label>
+                <input id="quadC" type="number" value="6" step="any" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+            </div>
+            <button onclick="solveQuadratic()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">Show Step-by-Step Solution</button>
+          </div>
+
+          <!-- 2. Linear System Form -->
+          <div id="mathpanel-linear2" class="hidden space-y-3 p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <div class="text-xs font-semibold text-indigo-300">Solve $a_1x + b_1y = c_1$ and $a_2x + b_2y = c_2$:</div>
+            <div class="grid grid-cols-3 gap-2">
+              <input id="linA1" type="number" value="2" placeholder="a₁" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              <input id="linB1" type="number" value="3" placeholder="b₁" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              <input id="linC1" type="number" value="13" placeholder="c₁" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              <input id="linA2" type="number" value="5" placeholder="a₂" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              <input id="linB2" type="number" value="-1" placeholder="b₂" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              <input id="linC2" type="number" value="7" placeholder="c₂" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+            </div>
+            <button onclick="solveLinearSystem()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">Solve for x and y</button>
+          </div>
+
+          <!-- 3. Geometry Form -->
+          <div id="mathpanel-geometry" class="hidden space-y-3 p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="text-xs text-slate-400 block mb-1">Shape</label>
+                <select id="geoShape" onchange="updateGeoInputs()" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white">
+                  <option value="circle">Circle (Radius r)</option>
+                  <option value="triangle">Right Triangle (Base b, Height h)</option>
+                  <option value="cylinder">Cylinder (Radius r, Height h)</option>
+                  <option value="sphere">Sphere (Radius r)</option>
+                  <option value="cone">Cone (Radius r, Height h)</option>
+                </select>
+              </div>
+              <div>
+                <label id="geoLabel1" class="text-xs text-slate-400 block mb-1">Radius (r)</label>
+                <input id="geoVal1" type="number" value="7" step="any" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+              <div id="geoVal2Wrap" class="hidden">
+                <label id="geoLabel2" class="text-xs text-slate-400 block mb-1">Height (h)</label>
+                <input id="geoVal2" type="number" value="10" step="any" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+            </div>
+            <button onclick="solveGeometry()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">Calculate Area / Volume</button>
+          </div>
+
+          <!-- 4. Interest Form -->
+          <div id="mathpanel-interest" class="hidden space-y-3 p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <div class="grid grid-cols-3 gap-3">
+              <div>
+                <label class="text-xs text-slate-400 block mb-1">Principal (P)</label>
+                <input id="intP" type="number" value="10000" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+              <div>
+                <label class="text-xs text-slate-400 block mb-1">Rate % per year (R)</label>
+                <input id="intR" type="number" value="8" step="any" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+              <div>
+                <label class="text-xs text-slate-400 block mb-1">Time in Years (T)</label>
+                <input id="intT" type="number" value="3" step="any" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+            </div>
+            <button onclick="solveInterest()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">Calculate SI & CI Steps</button>
+          </div>
+
+          <!-- 5. Number Theory Form -->
+          <div id="mathpanel-numbers" class="hidden space-y-3 p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs text-slate-400 block mb-1">First Integer</label>
+                <input id="numA" type="number" value="36" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+              <div>
+                <label class="text-xs text-slate-400 block mb-1">Second Integer</label>
+                <input id="numB" type="number" value="60" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+              </div>
+            </div>
+            <button onclick="solveNumbers()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">Find HCF (GCD), LCM & Prime Factors</button>
+          </div>
+
+          <!-- Step-by-Step Solution Output Box -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-indigo-500/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Step-by-Step Mathematical Working</span>
+              <button onclick="speakText(document.getElementById('mathStepsOutput').innerText)" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 text-xs">
+                🔊 Read Steps
+              </button>
+            </div>
+            <div id="mathStepsOutput" class="text-sm text-slate-200 font-mono whitespace-pre-line leading-relaxed">Select any solver above and click Calculate to view complete steps.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: STUDY MATERIAL ==================== -->
+    <section id="view-study" class="hidden space-y-6">
+      <div class="glass-card rounded-2xl p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-xl font-bold text-white">📚 Complete Study Material & Formula Reference</h2>
+            <p class="text-xs text-slate-400">Filter by subject, search keywords, listen via voice synthesis, or add your own custom study cards.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="filterStudy('all')" id="studycat-all" class="study-cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white">All Subjects</button>
+            <button onclick="filterStudy('Maths')" id="studycat-Maths" class="study-cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300">Mathematics</button>
+            <button onclick="filterStudy('Science')" id="studycat-Science" class="study-cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300">Science</button>
+            <button onclick="filterStudy('English')" id="studycat-English" class="study-cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300">English Grammar</button>
+            <button onclick="filterStudy('GK & Computer')" id="studycat-GK & Computer" class="study-cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300">GK & Computer</button>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input id="studySearchInput" type="text" oninput="renderStudyCards()" placeholder="Search formulas, laws, tenses, identities..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white" />
+          <button onclick="toggleAddStudyModal()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shrink-0">
+            + Add Custom Study Card
+          </button>
+        </div>
+
+        <!-- Add Custom Card Form (Collapsible) -->
+        <div id="addStudyCardBox" class="hidden p-4 rounded-xl bg-slate-900 border border-emerald-500/30 space-y-3">
+          <h3 class="text-sm font-bold text-emerald-300">Create New Study Note Card</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <input id="newCardTitle" type="text" placeholder="Topic Title (e.g. Coulomb's Law)" class="sm:col-span-2 px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white" />
+            <select id="newCardSubject" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white">
+              <option value="Maths">Mathematics</option>
+              <option value="Science">Science</option>
+              <option value="English">English Grammar</option>
+              <option value="GK & Computer">GK & Computer</option>
+            </select>
+          </div>
+          <textarea id="newCardContent" rows="3" placeholder="Enter formulas, key points, or explanation..." class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white"></textarea>
+          <div class="flex gap-2">
+            <button onclick="saveCustomStudyCard()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold">Save Card</button>
+            <button onclick="toggleAddStudyModal()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 text-xs">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Study Cards Grid -->
+      <div id="studyCardsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </section>
+
+    <!-- ==================== TAB 4: QUESTION PAPER & QUIZ GENERATOR ==================== -->
+    <section id="view-exam" class="hidden space-y-6">
+      <div class="glass-card rounded-2xl p-5 space-y-4 no-print">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-xl font-bold text-white">📝 Question Paper & Interactive Quiz Generator</h2>
+            <p class="text-xs text-slate-400">Generate an instant interactive quiz or a printable school examination paper with an official answer key.</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="window.print()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700">
+              🖨️ Print Paper
+            </button>
+            <button onclick="downloadQuestionPaperTxt()" class="px-3.5 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 text-xs font-semibold border border-indigo-500/30">
+              ⬇️ Download .TXT
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-1">
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">Subject</label>
+            <select id="examSubject" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+              <option value="All">All Subjects (Combined)</option>
+              <option value="Maths">Mathematics</option>
+              <option value="Science">Science (Physics/Chem/Bio)</option>
+              <option value="English">English Grammar</option>
+              <option value="GK">General Knowledge & Computer</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">Number of Questions</label>
+            <select id="examCount" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+              <option value="5">5 Questions (25 Marks)</option>
+              <option value="10" selected>10 Questions (50 Marks)</option>
+              <option value="15">15 Questions (75 Marks)</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">Paper Format</label>
+            <select id="examMode" onchange="renderCurrentExam()" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white">
+              <option value="interactive">Interactive Quiz (Check Answers)</option>
+              <option value="printable">Formal Question Paper (Print View)</option>
+            </select>
+          </div>
+          <div class="flex items-end">
+            <button onclick="generateExamPaper()" class="w-full px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/25 transition">
+              ⚡ Generate New Paper
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exam Score Banner -->
+      <div id="examScoreBanner" class="hidden p-4 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 flex flex-wrap items-center justify-between gap-3 no-print">
+        <div>
+          <h3 id="examScoreTitle" class="text-lg font-bold text-emerald-300">Score: 0 / 0</h3>
+          <p id="examScoreSub" class="text-xs text-emerald-200/80">Review the detailed explanations below each question.</p>
+        </div>
+        <button onclick="generateExamPaper()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold">
+          Try Another Paper
+        </button>
+      </div>
+
+      <!-- Paper Sheet Container -->
+      <div class="glass-card print-sheet rounded-2xl p-6 space-y-6">
+        <div class="border-b border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 id="paperHeaderTitle" class="text-xl font-extrabold text-white">STUDYNOVA MODEL EXAMINATION PAPER</h3>
+            <p id="paperHeaderMeta" class="text-xs text-slate-400">Subject: Combined • Time Allowed: 45 Mins</p>
+          </div>
+          <div class="flex items-center gap-2 no-print">
+            <button onclick="submitInteractiveQuiz()" id="submitQuizBtn" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
+              ✓ Submit & Check Answers
+            </button>
+            <button onclick="toggleAnswerKey()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">
+              🔑 Show/Hide Answer Key
+            </button>
+          </div>
+        </div>
+
+        <div id="examQuestionsList" class="space-y-4"></div>
+
+        <!-- Official Answer Key Section -->
+        <div id="examAnswerKeyBox" class="hidden pt-4 border-t border-slate-800 space-y-2">
+          <h4 class="text-sm font-bold uppercase tracking-wider text-indigo-400">Official Answer Key & Explanations</h4>
+          <div id="examAnswerKeyContent" class="space-y-2 text-xs text-slate-300"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: GRAMMAR & WRITING CHECKER ==================== -->
+    <section id="view-grammar" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-7 glass-card rounded-2xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 class="text-lg font-bold text-white">✍️ English Grammar, Spelling & Style Checker</h2>
+              <p class="text-xs text-slate-400">Paste or type any paragraph to detect grammar errors, spelling mistakes, and style improvements.</p>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="loadGrammarSample()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium">
+                Load Sample Text
+              </button>
+              <button onclick="speakText(document.getElementById('grammarInput').value)" class="px-3 py-1.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 text-xs font-medium">
+                🔊 Read Aloud
+              </button>
+            </div>
+          </div>
+
+          <textarea id="grammarInput" rows="9" oninput="analyzeGrammar()" placeholder="Type or paste your English sentences here..." class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-sm leading-relaxed focus:outline-none focus:border-indigo-500">their is a lot of students who recieve bad marks because they dont seperate there study time properly. he go to school everyday and have a apple in the morning.</textarea>
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex flex-wrap gap-3 text-xs text-slate-400">
+              <span>Words: <strong id="gramWordCount" class="text-white">0</strong></span>
+              <span>Characters: <strong id="gramCharCount" class="text-white">0</strong></span>
+              <span>Sentences: <strong id="gramSentCount" class="text-white">0</strong></span>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="applyAllGrammarFixes()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-600/20">
+                ✨ Fix All Issues Automatically
+              </button>
+              <button onclick="copyGrammarText()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold">
+                📋 Copy Clean Text
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 glass-card rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-white">Detected Suggestions</h3>
+            <span id="grammarIssueBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300">0 issues</span>
+          </div>
+          <div id="grammarIssuesList" class="space-y-2.5 max-h-[380px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: BOOK GENERATOR & NOTES STUDIO ==================== -->
+    <section id="view-book" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Sidebar: Book Template Generator & Chapter List -->
+        <div class="lg:col-span-4 glass-card rounded-2xl p-5 space-y-5">
+          <div class="space-y-2">
+            <h2 class="text-lg font-bold text-white">📖 Book & Study Guide Studio</h2>
+            <p class="text-xs text-slate-400">Generate a structured multi-chapter book draft on any topic or organize your personal study chapters.</p>
+          </div>
+
+          <!-- Instant Book / Guide Generator -->
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-indigo-500/30 space-y-3">
+            <div class="text-xs font-bold text-indigo-300 uppercase tracking-wider">⚡ Instant Book Outline & Draft Builder</div>
+            <input id="bookTopicInput" type="text" placeholder="Enter Book Title or Topic (e.g. Mastering Science)" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white" />
+            <select id="bookTemplateType" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white">
+              <option value="textbook">Complete Study Guide (5 Chapters)</option>
+              <option value="story">Adventure / Sci-Fi Story Book (4 Chapters)</option>
+              <option value="exam">Exam Revision Handbook (4 Chapters)</option>
+            </select>
+            <button onclick="generateBookFromTemplate()" class="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition">
+              Generate Multi-Chapter Book
+            </button>
+          </div>
+
+          <!-- Chapters List -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Chapters</span>
+              <button onclick="addNewChapter()" class="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 text-xs font-semibold">
+                + Add Chapter
+              </button>
+            </div>
+            <div id="bookChaptersList" class="space-y-1.5 max-h-60 overflow-y-auto"></div>
+          </div>
+
+          <button onclick="exportFullBook()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 text-xs font-semibold border border-slate-700">
+            ⬇️ Download Complete Book (.MD)
+          </button>
+        </div>
+
+        <!-- Chapter Editor -->
+        <div class="lg:col-span-8 glass-card rounded-2xl p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <input id="activeChapterTitle" type="text" oninput="saveActiveChapter()" class="text-lg font-bold bg-transparent border-b border-slate-700 focus:border-indigo-500 focus:outline-none text-white w-full sm:w-auto flex-1 pb-1" placeholder="Chapter Title" />
+            <div class="flex flex-wrap gap-2">
+              <button onclick="startVoiceDictation()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-semibold">
+                🎤 Dictate by Voice
+              </button>
+              <button onclick="speakText(document.getElementById('activeChapterBody').value)" class="px-3 py-1.5 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 text-xs font-semibold">
+                🔊 Read Chapter
+              </button>
+            </div>
+          </div>
+
+          <textarea id="activeChapterBody" rows="14" oninput="saveActiveChapter()" placeholder="Write or generate your chapter content here..." class="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-sm leading-relaxed focus:outline-none focus:border-indigo-500"></textarea>
+
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span id="bookSaveStatus">✓ Saved automatically in browser storage</span>
+            <span id="chapterWordCount">0 words</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile App Bottom Navigation Bar -->
+  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 px-2 py-1.5 flex items-center justify-around no-print">
+    <button onclick="switchTab('dashboard')" class="flex flex-col items-center gap-0.5 text-[10px] font-medium text-slate-300 hover:text-indigo-400">
+      <span class="text-base">🏠</span><span>Home</span>
+    </button>
+    <button onclick="switchTab('calculator')" class="flex flex-col items-center gap-0.5 text-[10px] font-medium text-slate-300 hover:text-indigo-400">
+      <span class="text-base">🧮</span><span>Solver</span>
+    </button>
+    <button onclick="switchTab('study')" class="flex flex-col items-center gap-0.5 text-[10px] font-medium text-slate-300 hover:text-indigo-400">
+      <span class="text-base">📚</span><span>Study</span>
+    </button>
+    <button onclick="switchTab('exam')" class="flex flex-col items-center gap-0.5 text-[10px] font-medium text-slate-300 hover:text-indigo-400">
+      <span class="text-base">📝</span><span>Exams</span>
+    </button>
+    <button onclick="switchTab('grammar')" class="flex flex-col items-center gap-0.5 text-[10px] font-medium text-slate-300 hover:text-indigo-400">
+      <span class="text-base">✍️</span><span>Grammar</span>
+    </button>
+    <button onclick="switchTab('book')" class="flex flex-col items-center gap-0.5 text-[10px] font-medium text-slate-300 hover:text-indigo-400">
+      <span class="text-base">📖</span><span>Books</span>
+    </button>
+  </div>
+
+  <script>
+    // ==================== STATE & INITIAL DATA ====================
+    let stats = { solved: 0, papers: 0 };
+    try {
+      const savedStats = localStorage.getItem('vidyaverse_stats');
+      if (savedStats) stats = JSON.parse(savedStats);
+    } catch (e) {}
+
+    function updateStatsUI() {
+      document.getElementById('statProblemsSolved').innerText = stats.solved;
+      document.getElementById('statQuizzesDone').innerText = stats.papers;
+      document.getElementById('statChaptersCount').innerText = bookChapters.length;
+      try {
+        localStorage.setItem('vidyaverse_stats', JSON.stringify(stats));
+      } catch (e) {}
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      box.innerText = msg;
+      box.classList.remove('hidden');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => box.classList.add('hidden'), 3000);
+    }
+
+        function changeSiteBrand(newName) {
+      if (!newName) return;
+      document.getElementById('brandTitleText').innerText = newName;
+      document.getElementById('brandLogoIcon').innerText = newName.charAt(0).toUpperCase();
+      document.title = newName + ' — All-in-One Study Hub, Calculator & Exam Toolkit';
+      const paperTitle = document.getElementById('paperHeaderTitle');
+      if (paperTitle) paperTitle.innerText = newName.toUpperCase() + ' MODEL EXAMINATION PAPER';
+      showToast('✨ Website name updated to ' + newName + '!');
+    }
+
+    // ==================== TAB NAVIGATION ====================
+    function switchTab(tabId) {
+      const tabs = ['dashboard', 'calculator', 'study', 'exam', 'grammar', 'book'];
+      tabs.forEach(t => {
+        const view = document.getElementById('view-' + t);
+        const btn = document.getElementById('tab-' + t);
+        if (t === tabId) {
+          view.classList.remove('hidden');
+          btn.className = 'tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 bg-indigo-600 text-white shadow-md shadow-indigo-600/25';
+        } else {
+          view.classList.add('hidden');
+          btn.className = 'tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-slate-300 hover:bg-slate-800/80';
+        }
+      });
+    }
+
+    // ==================== POMODORO TIMER ====================
+    let pomoSeconds = 25 * 60;
+    let pomoRunning = false;
+    let pomoInterval = null;
+
+    function updatePomoDisplay() {
+      const m = String(Math.floor(pomoSeconds / 60)).padStart(2, '0');
+      const s = String(pomoSeconds % 60).padStart(2, '0');
+      document.getElementById('pomoDisplay').innerText = m + ':' + s;
+    }
+
+    function togglePomodoro() {
+      const btn = document.getElementById('pomoStartBtn');
+      if (pomoRunning) {
+        clearInterval(pomoInterval);
+        pomoRunning = false;
+        btn.innerText = 'Start';
+      } else {
+        pomoRunning = true;
+        btn.innerText = 'Pause';
+        clearInterval(pomoInterval);
+        pomoInterval = setInterval(() => {
+          if (pomoSeconds > 0) {
+            pomoSeconds--;
+            updatePomoDisplay();
+          } else {
+            clearInterval(pomoInterval);
+            pomoRunning = false;
+            btn.innerText = 'Start';
+            showToast('⏰ Focus session complete! Take a 5-minute break.');
+            speakText('Focus session complete. Great job!');
+          }
+        }, 1000);
+      }
+    }
+
+    function resetPomodoro() {
+      clearInterval(pomoInterval);
+      pomoRunning = false;
+      pomoSeconds = 25 * 60;
+      document.getElementById('pomoStartBtn').innerText = 'Start';
+      updatePomoDisplay();
+    }
+
+    // ==================== VOICE SYNTHESIS & RECOGNITION ====================
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) {
+        showToast('Speech synthesis is not supported in this browser.');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const clean = String(text || '').replace(/[$#*`_]/g, '');
+      if (!clean.trim()) return;
+      const utter = new SpeechSynthesisUtterance(clean);
+      utter.rate = 1.0;
+      const stopBtn = document.getElementById('voiceStopBtn');
+      stopBtn.classList.remove('hidden');
+      utter.onend = () => stopBtn.classList.add('hidden');
+      utter.onerror = () => stopBtn.classList.add('hidden');
+      window.speechSynthesis.speak(utter);
+    }
+
+    function stopSpeech() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      document.getElementById('voiceStopBtn').classList.add('hidden');
+    }
+
+    function startVoiceSearch() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        showToast('Voice input requires Chrome or Edge browser.');
+        return;
+      }
+      const rec = new SpeechRec();
+      rec.lang = 'en-IN';
+      const label = document.getElementById('voiceSearchLabel');
+      label.innerText = 'Listening...';
+      rec.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        document.getElementById('quickQueryInput').value = transcript;
+        label.innerText = 'Speak Query';
+        runQuickAssistant();
+      };
+      rec.onerror = () => {
+        label.innerText = 'Speak Query';
+        showToast('Could not capture voice. Try typing your query.');
+      };
+      rec.onend = () => {
+        label.innerText = 'Speak Query';
+      };
+      rec.start();
+    }
+
+    function startVoiceDictation() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        showToast('Voice dictation is supported in Chrome and Edge browsers.');
+        return;
+      }
+      const rec = new SpeechRec();
+      rec.lang = 'en-IN';
+      showToast('🎤 Listening... Speak your sentence clearly.');
+      rec.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        const area = document.getElementById('activeChapterBody');
+        area.value += (area.value.endsWith(' ') || !area.value ? '' : ' ') + transcript;
+        saveActiveChapter();
+        showToast('✓ Added voice note to chapter!');
+      };
+      rec.start();
+    }
+
+    // ==================== STUDY MATERIAL DATABASE ====================
+    const defaultStudyCards = [
+      {
+        id: 'm1',
+        subject: 'Maths',
+        title: 'Algebraic Identities & Quadratic Formula',
+        content: '• (a + b)² = a² + 2ab + b²\n• (a - b)² = a² - 2ab + b²\n• a² - b² = (a + b)(a - b)\n• (a + b)³ = a³ + b³ + 3ab(a + b)\n• a³ + b³ = (a + b)(a² - ab + b²)\n• Quadratic Formula: For ax² + bx + c = 0, x = [-b ± √(b² - 4ac)] / (2a)'
+      },
+      {
+        id: 'm2',
+        subject: 'Maths',
+        title: 'Trigonometry Ratios & Fundamental Identities',
+        content: '• sin θ = Opposite / Hypotenuse | cos θ = Adjacent / Hypotenuse | tan θ = sin θ / cos θ\n• sin²θ + cos²θ = 1\n• 1 + tan²θ = sec²θ\n• 1 + cot²θ = cosec²θ\n• Standard Angles: sin 0°=0, sin 30°=1/2, sin 45°=1/√2, sin 60°=√3/2, sin 90°=1'
+      },
+      {
+        id: 'm3',
+        subject: 'Maths',
+        title: 'Geometry & Mensuration 2D / 3D Formulas',
+        content: '• Circle: Area = πr², Circumference = 2πr\n• Right Triangle: Pythagoras Theorem a² + b² = c², Area = ½ × base × height\n• Cylinder: Curved Surface Area = 2πrh, Total Area = 2πr(r+h), Volume = πr²h\n• Sphere: Surface Area = 4πr², Volume = (4/3)πr³\n• Cone: Slant height l = √(r²+h²), Volume = (1/3)πr²h'
+      },
+      {
+        id: 'm4',
+        subject: 'Maths',
+        title: 'Arithmetic & Geometric Progression (AP & GP)',
+        content: '• AP nth term: Tₙ = a + (n - 1)d\n• AP Sum of n terms: Sₙ = (n/2)[2a + (n - 1)d]\n• GP nth term: Tₙ = a · r^(n - 1)\n• GP Sum of n terms: Sₙ = a(rⁿ - 1) / (r - 1) for r ≠ 1'
+      },
+      {
+        id: 's1',
+        subject: 'Science',
+        title: 'Newton’s Laws of Motion & Kinematics Equations',
+        content: '• First Law (Inertia): A body remains at rest or uniform motion unless acted upon by an external force.\n• Second Law: Force F = m × a (SI Unit: Newton)\n• Third Law: Every action has an equal and opposite reaction.\n• Equations of Motion:\n  1) v = u + at\n  2) s = ut + ½at²\n  3) v² - u² = 2as'
+      },
+      {
+        id: 's2',
+        subject: 'Science',
+        title: 'Electricity, Ohm’s Law & Power Formulas',
+        content: '• Ohm’s Law: Potential difference V = I × R (Voltage = Current × Resistance)\n• Series Resistors: R_total = R₁ + R₂ + R₃\n• Parallel Resistors: 1/R_total = 1/R₁ + 1/R₂ + 1/R₃\n• Electric Power: P = V × I = I²R = V²/R (Unit: Watt)\n• Electrical Energy / Heat (Joule’s Law): H = I²Rt (Unit: Joule)'
+      },
+      {
+        id: 's3',
+        subject: 'Science',
+        title: 'Chemical Reactions, Acids, Bases & pH Scale',
+        content: '• pH Scale ranges from 0 to 14: pH < 7 is Acidic, pH = 7 is Neutral (Pure water), pH > 7 is Basic/Alkaline.\n• Neutralization Reaction: Acid + Base → Salt + Water (e.g., HCl + NaOH → NaCl + H₂O)\n• Photosynthesis: 6CO₂ + 6H₂O + Sunlight/Chlorophyll → C₆H₁₂O₆ (Glucose) + 6O₂'
+      },
+      {
+        id: 's4',
+        subject: 'Science',
+        title: 'Cell Biology & Human Organ Systems',
+        content: '• Mitochondria: Powerhouse of the cell (produces ATP energy).\n• Ribosomes: Site of protein synthesis.\n• Nucleus: Contains DNA / genetic material.\n• Plant Cells vs Animal Cells: Plant cells have a rigid Cell Wall and Chloroplasts.\n• Human Heart: 4 chambers (Left/Right Atrium, Left/Right Ventricle) carrying oxygenated and deoxygenated blood.'
+      },
+      {
+        id: 'e1',
+        subject: 'English',
+        title: 'Complete 12 English Tenses Formula Chart',
+        content: '• Simple Present: Subject + V₁(s/es) + Object (She writes a letter.)\n• Present Continuous: Subject + is/am/are + V₁-ing + Object\n• Present Perfect: Subject + has/have + V₃ + Object\n• Simple Past: Subject + V₂ + Object (She wrote a letter.)\n• Past Perfect: Subject + had + V₃ + Object\n• Simple Future: Subject + will/shall + V₁ + Object'
+      },
+      {
+        id: 'e2',
+        subject: 'English',
+        title: 'Active to Passive Voice Conversion Rules',
+        content: '• Rule 1: Object of Active sentence becomes Subject of Passive sentence.\n• Rule 2: Always use the Past Participle (V₃) form of the main verb in Passive Voice.\n• Simple Present: am/is/are + V₃ ("A book is read by him.")\n• Simple Past: was/were + V₃ ("A book was read by him.")\n• Continuous Tenses: am/is/are/was/were + being + V₃'
+      },
+      {
+        id: 'g1',
+        subject: 'GK & Computer',
+        title: 'Computer Architecture, Shortcuts & Networking',
+        content: '• CPU Components: ALU (Arithmetic Logic Unit) + CU (Control Unit) + Registers.\n• Memory: RAM (Volatile primary memory) vs ROM (Non-volatile firmware).\n• Key Protocols: HTTP/HTTPS (Web), TCP/IP (Packet routing), DNS (Domain Name to IP).\n• Essential Shortcuts: Ctrl+C (Copy), Ctrl+V (Paste), Ctrl+Z (Undo), Ctrl+F (Find).'
+      },
+      {
+        id: 'g2',
+        subject: 'GK & Computer',
+        title: 'Indian Constitution & Science Milestones',
+        content: '• Constitution of India: Adopted on 26 November 1949, came into effect on 26 January 1950.\n• Architect of the Indian Constitution: Dr. B.R. Ambedkar.\n• Fundamental Rights: Covered in Part III (Articles 12 to 35).\n• ISRO Milestones: Chandrayaan-3 soft-landed near the lunar south pole on 23 August 2023.'
+      }
+    ];
+
+    let studyCards = [...defaultStudyCards];
+    try {
+      const savedCustom = localStorage.getItem('vidyaverse_custom_cards');
+      if (savedCustom) {
+        studyCards = [...JSON.parse(savedCustom), ...defaultStudyCards];
+      }
+    } catch (e) {}
+
+    let activeStudyCategory = 'all';
+
+    function filterStudy(cat) {
+      activeStudyCategory = cat;
+      const cats = ['all', 'Maths', 'Science', 'English', 'GK & Computer'];
+      cats.forEach(c => {
+        const btn = document.getElementById('studycat-' + c);
+        if (btn) {
+          btn.className = (c === cat)
+            ? 'study-cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white'
+            : 'study-cat-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300';
+        }
+      });
+      renderStudyCards();
+    }
+
+    function renderStudyCards() {
+      const q = (document.getElementById('studySearchInput').value || '').toLowerCase();
+      const container = document.getElementById('studyCardsContainer');
+      const filtered = studyCards.filter(card => {
+        const matchesCat = activeStudyCategory === 'all' || card.subject === activeStudyCategory;
+        const matchesQ = !q || card.title.toLowerCase().includes(q) || card.content.toLowerCase().includes(q);
+        return matchesCat && matchesQ;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="col-span-2 p-8 text-center text-slate-400 glass-card rounded-2xl">No matching study cards found. Try another keyword or add a custom card!</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map((c, idx) => `
+        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between space-y-3 hover:border-indigo-500/40 transition">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">${c.subject}</span>
+              <button onclick="speakStudyCard(${idx})" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-300 text-xs font-medium transition">
+                🔊 Listen
+              </button>
+            </div>
+            <h3 class="text-base font-bold text-white">${c.title}</h3>
+            <div class="text-xs sm:text-sm text-slate-300 whitespace-pre-line leading-relaxed pt-1">${c.content}</div>
+          </div>
+        </div>
+      `).join('');
+      window._currentFilteredCards = filtered;
+    }
+
+    function speakStudyCard(idx) {
+      const list = window._currentFilteredCards || studyCards;
+      if (list[idx]) {
+        speakText(list[idx].title + '. ' + list[idx].content);
+      }
+    }
+
+    function toggleAddStudyModal() {
+      const box = document.getElementById('addStudyCardBox');
+      box.classList.toggle('hidden');
+    }
+
+    function saveCustomStudyCard() {
+      const title = document.getElementById('newCardTitle').value.trim();
+      const subject = document.getElementById('newCardSubject').value;
+      const content = document.getElementById('newCardContent').value.trim();
+      if (!title || !content) {
+        showToast('Please enter both a topic title and study notes.');
+        return;
+      }
+      const newCard = { id: 'custom_' + Date.now(), subject, title, content };
+      studyCards.unshift(newCard);
+      try {
+        const customOnly = studyCards.filter(c => String(c.id).startsWith('custom_'));
+        localStorage.setItem('vidyaverse_custom_cards', JSON.stringify(customOnly));
+      } catch (e) {}
+      document.getElementById('newCardTitle').value = '';
+      document.getElementById('newCardContent').value = '';
+      document.getElementById('addStudyCardBox').classList.add('hidden');
+      renderStudyCards();
+      showToast('✓ Custom study card saved!');
+    }
+
+    // ==================== DASHBOARD QUICK ASSISTANT ====================
+    function runQuickAssistant() {
+      const raw = document.getElementById('quickQueryInput').value.trim();
+      if (!raw) {
+        showToast('Please enter a math problem or study topic.');
+        return;
+      }
+      const outBox = document.getElementById('quickAssistantOutput');
+      const catEl = document.getElementById('qaCategory');
+      const titleEl = document.getElementById('qaTitle');
+      const bodyEl = document.getElementById('qaBody');
+      outBox.classList.remove('hidden');
+
+      // 1. Check if it's a mathematical calculation expression
+      const cleanedMath = raw.replace(/[^0-9+\-*/().^%\s]/g, '');
+      if (cleanedMath.length > 0 && /^[0-9+\-*/().^%\s]+$/.test(raw) && /[+\-*/^%]/.test(raw)) {
+        try {
+          const jsExpr = raw.replace(/\^/g, '**');
+          const val = Function('"use strict"; return (' + jsExpr + ')')();
+          if (typeof val === 'number' && isFinite(val)) {
+            catEl.innerText = 'Instant Math Evaluation';
+            titleEl.innerText = raw + ' = ' + Number(val.toFixed(6));
+            bodyEl.innerText = 'Step 1: Parsed mathematical expression: ' + raw + '\nStep 2: Computed exact result = ' + Number(val.toFixed(6));
+            stats.solved++;
+            updateStatsUI();
+            return;
+          }
+        } catch (e) {}
+      }
+
+      // 2. Search study database
+      const q = raw.toLowerCase();
+      const match = studyCards.find(c =>
+        c.title.toLowerCase().includes(q) ||
+        c.content.toLowerCase().includes(q) ||
+        q.split(/\s+/).some(w => w.length > 3 && (c.title.toLowerCase().includes(w) || c.content.toLowerCase().includes(w)))
+      );
+
+      if (match) {
+        catEl.innerText = match.subject + ' Reference';
+        titleEl.innerText = match.title;
+        bodyEl.innerText = match.content;
+        return;
+      }
+
+      // 3. Fallback helpful guide
+      catEl.innerText = 'Study Hub Guide';
+      titleEl.innerText = 'Topic Overview: ' + raw;
+      bodyEl.innerText = '• Tip 1: Use the "Calculator & Math Solver" tab to solve equations, geometry, or interest problems step-by-step.\n• Tip 2: Add "' + raw + '" as a custom card in the Study Material tab or generate a 5-chapter study guide on "' + raw + '" inside the Book & Notes Studio tab!';
+    }
+
+    // ==================== SCIENTIFIC CALCULATOR ====================
+    let calcExpr = '';
+    let calcHistory = [];
+
+    function updateCalcUI(resultPreview) {
+      document.getElementById('calcExpression').innerText = calcExpr || '0';
+      document.getElementById('calcScreen').innerText = resultPreview !== undefined ? resultPreview : (calcExpr || '0');
+    }
+
+    function calcInput(token) {
+      calcExpr += token;
+      updateCalcUI();
+    }
+
+    function calcFunc(fnToken) {
+      calcExpr += fnToken + '(';
+      updateCalcUI();
+    }
+
+    function calcBackspace() {
+      calcExpr = calcExpr.slice(0, -1);
+      updateCalcUI();
+    }
+
+    function calcClear() {
+      calcExpr = '';
+      updateCalcUI('0');
+    }
+
+    function calcEvaluate() {
+      if (!calcExpr.trim()) return;
+      try {
+        let expr = calcExpr
+          .replace(/π|pi/g, 'Math.PI')
+          .replace(/sqrt\(/g, 'Math.sqrt(')
+          .replace(/sin\(/g, 'Math.sin((Math.PI/180)*')
+          .replace(/cos\(/g, 'Math.cos((Math.PI/180)*')
+          .replace(/tan\(/g, 'Math.tan((Math.PI/180)*')
+          .replace(/log\(/g, 'Math.log10(')
+          .replace(/ln\(/g, 'Math.log(')
+          .replace(/\^/g, '**');
+
+        // Auto-close open parentheses
+        const openCount = (expr.match(/\(/g) || []).length;
+        const closeCount = (expr.match(/\)/g) || []).length;
+        for (let i = 0; i < openCount - closeCount; i++) expr += ')';
+
+        const res = Function('"use strict"; return (' + expr + ')')();
+        if (typeof res !== 'number' || !isFinite(res)) {
+          updateCalcUI('Math Error');
+          return;
+        }
+        const formatted = Number(res.toFixed(8));
+        calcHistory.unshift({ expr: calcExpr, res: formatted });
+        calcExpr = String(formatted);
+        updateCalcUI(formatted);
+        renderCalcHistory();
+        stats.solved++;
+        updateStatsUI();
+      } catch (err) {
+        updateCalcUI('Syntax Error');
+      }
+    }
+
+    function renderCalcHistory() {
+      const box = document.getElementById('calcHistoryList');
+      if (calcHistory.length === 0) {
+        box.innerHTML = '<div class="text-slate-500 italic">No calculations yet.</div>';
+        return;
+      }
+      box.innerHTML = calcHistory.slice(0, 8).map(item => `
+        <div class="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800/80">
+          <span class="font-mono text-slate-400 truncate">${item.expr}</span>
+          <span class="font-mono font-bold text-indigo-300">= ${item.res}</span>
+        </div>
+      `).join('');
+    }
+
+    function clearCalcHistory() {
+      calcHistory = [];
+      renderCalcHistory();
+    }
+
+    // ==================== STEP-BY-STEP MATH SOLVERS ====================
+    function switchMathMode(mode) {
+      const modes = ['quadratic', 'linear2', 'geometry', 'interest', 'numbers'];
+      modes.forEach(m => {
+        document.getElementById('mathpanel-' + m).classList.toggle('hidden', m !== mode);
+        const btn = document.getElementById('mathbtn-' + m);
+        btn.className = (m === mode)
+          ? 'math-mode-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white'
+          : 'math-mode-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
+      });
+    }
+
+    function solveQuadratic() {
+      const a = parseFloat(document.getElementById('quadA').value);
+      const b = parseFloat(document.getElementById('quadB').value);
+      const c = parseFloat(document.getElementById('quadC').value);
+      const out = document.getElementById('mathStepsOutput');
+
+      if (isNaN(a) || isNaN(b) || isNaN(c) || a === 0) {
+        out.innerText = 'Please enter valid numbers with a ≠ 0.';
+        return;
+      }
+      const D = b * b - 4 * a * c;
+      let steps = `Equation: (${a})x² + (${b})x + (${c}) = 0\n`;
+      steps += `Step 1: Identify coefficients: a = ${a}, b = ${b}, c = ${c}\n`;
+      steps += `Step 2: Calculate Discriminant (D = b² - 4ac):\n`;
+      steps += `        D = (${b})² - 4(${a})(${c}) = ${b * b} - (${4 * a * c}) = ${D}\n`;
+
+      if (D > 0) {
+        const r1 = ((-b + Math.sqrt(D)) / (2 * a)).toFixed(4);
+        const r2 = ((-b - Math.sqrt(D)) / (2 * a)).toFixed(4);
+        steps += `Step 3: Since D > 0, there are two distinct real roots:\n`;
+        steps += `        x = [-b ± √D] / (2a)\n`;
+        steps += `        x₁ = [${-b} + √${D}] / ${2 * a} = ${Number(r1)}\n`;
+        steps += `        x₂ = [${-b} - √${D}] / ${2 * a} = ${Number(r2)}`;
+      } else if (D === 0) {
+        const r = (-b / (2 * a)).toFixed(4);
+        steps += `Step 3: Since D = 0, there is one repeated real root:\n`;
+        steps += `        x = -b / (2a) = ${-b} / ${2 * a} = ${Number(r)}`;
+      } else {
+        const realPart = (-b / (2 * a)).toFixed(4);
+        const imagPart = (Math.sqrt(-D) / (2 * a)).toFixed(4);
+        steps += `Step 3: Since D < 0, roots are complex conjugates:\n`;
+        steps += `        x₁ = ${Number(realPart)} + ${Number(imagPart)}i\n`;
+        steps += `        x₂ = ${Number(realPart)} - ${Number(imagPart)}i`;
+      }
+      out.innerText = steps;
+      stats.solved++;
+      updateStatsUI();
+    }
+
+    function solveLinearSystem() {
+      const a1 = parseFloat(document.getElementById('linA1').value);
+      const b1 = parseFloat(document.getElementById('linB1').value);
+      const c1 = parseFloat(document.getElementById('linC1').value);
+      const a2 = parseFloat(document.getElementById('linA2').value);
+      const b2 = parseFloat(document.getElementById('linB2').value);
+      const c2 = parseFloat(document.getElementById('linC2').value);
+      const out = document.getElementById('mathStepsOutput');
+
+      const det = a1 * b2 - a2 * b1;
+      let steps = `System of Equations:\n  (1) ${a1}x + ${b1}y = ${c1}\n  (2) ${a2}x + ${b2}y = ${c2}\n\n`;
+      steps += `Step 1: Compute Determinant D = a₁b₂ - a₂b₁ = (${a1})(${b2}) - (${a2})(${b1}) = ${det}\n`;
+      if (det === 0) {
+        steps += `Step 2: Since D = 0, the lines are parallel or coincident (no unique solution).`;
+      } else {
+        const dx = c1 * b2 - c2 * b1;
+        const dy = a1 * c2 - a2 * c1;
+        const x = Number((dx / det).toFixed(4));
+        const y = Number((dy / det).toFixed(4));
+        steps += `Step 2: Compute Dₓ = c₁b₂ - c₂b₁ = (${c1})(${b2}) - (${c2})(${b1}) = ${dx}\n`;
+        steps += `Step 3: Compute Dᵧ = a₁c₂ - a₂c₁ = (${a1})(${c2}) - (${a2})(${c1}) = ${dy}\n`;
+        steps += `Step 4: Apply Cramer's Rule:\n        x = Dₓ / D = ${dx} / ${det} = ${x}\n        y = Dᵧ / D = ${dy} / ${det} = ${y}`;
+      }
+      out.innerText = steps;
+      stats.solved++;
+      updateStatsUI();
+    }
+
+    function updateGeoInputs() {
+      const shape = document.getElementById('geoShape').value;
+      const l1 = document.getElementById('geoLabel1');
+      const l2 = document.getElementById('geoLabel2');
+      const wrap2 = document.getElementById('geoVal2Wrap');
+
+      if (shape === 'circle' || shape === 'sphere') {
+        l1.innerText = 'Radius (r)';
+        wrap2.classList.add('hidden');
+      } else if (shape === 'triangle') {
+        l1.innerText = 'Base (b)';
+        l2.innerText = 'Height (h)';
+        wrap2.classList.remove('hidden');
+      } else {
+        l1.innerText = 'Radius (r)';
+        l2.innerText = 'Height (h)';
+        wrap2.classList.remove('hidden');
+      }
+    }
+
+    function solveGeometry() {
+      const shape = document.getElementById('geoShape').value;
+      const v1 = parseFloat(document.getElementById('geoVal1').value);
+      const v2 = parseFloat(document.getElementById('geoVal2').value);
+      const out = document.getElementById('mathStepsOutput');
+      let steps = '';
+
+      if (shape === 'circle') {
+        const area = (Math.PI * v1 * v1).toFixed(4);
+        const circ = (2 * Math.PI * v1).toFixed(4);
+        steps = `Shape: Circle with radius r = ${v1}\nStep 1: Area = π × r² = 3.14159 × ${v1}² = ${area} sq. units\nStep 2: Circumference = 2 × π × r = ${circ} units`;
+      } else if (shape === 'triangle') {
+        const hyp = Math.sqrt(v1 * v1 + v2 * v2).toFixed(4);
+        const area = (0.5 * v1 * v2).toFixed(4);
+        steps = `Shape: Right Triangle (base = ${v1}, height = ${v2})\nStep 1: Area = ½ × base × height = 0.5 × ${v1} × ${v2} = ${area} sq. units\nStep 2: Hypotenuse = √(b² + h²) = √(${v1 * v1} + ${v2 * v2}) = ${hyp} units`;
+      } else if (shape === 'cylinder') {
+        const csa = (2 * Math.PI * v1 * v2).toFixed(4);
+        const vol = (Math.PI * v1 * v1 * v2).toFixed(4);
+        steps = `Shape: Cylinder (r = ${v1}, h = ${v2})\nStep 1: Curved Surface Area = 2πrh = ${csa} sq. units\nStep 2: Volume = πr²h = ${vol} cubic units`;
+      } else if (shape === 'sphere') {
+        const sa = (4 * Math.PI * v1 * v1).toFixed(4);
+        const vol = ((4 / 3) * Math.PI * Math.pow(v1, 3)).toFixed(4);
+        steps = `Shape: Sphere (r = ${v1})\nStep 1: Surface Area = 4πr² = ${sa} sq. units\nStep 2: Volume = (4/3)πr³ = ${vol} cubic units`;
+      } else if (shape === 'cone') {
+        const l = Math.sqrt(v1 * v1 + v2 * v2).toFixed(4);
+        const vol = ((1 / 3) * Math.PI * v1 * v1 * v2).toFixed(4);
+        steps = `Shape: Cone (r = ${v1}, h = ${v2})\nStep 1: Slant Height l = √(r² + h²) = ${l} units\nStep 2: Volume = (1/3)πr²h = ${vol} cubic units`;
+      }
+      out.innerText = steps;
+      stats.solved++;
+      updateStatsUI();
+    }
+
+    function solveInterest() {
+      const P = parseFloat(document.getElementById('intP').value);
+      const R = parseFloat(document.getElementById('intR').value);
+      const T = parseFloat(document.getElementById('intT').value);
+      const out = document.getElementById('mathStepsOutput');
+
+      const SI = (P * R * T) / 100;
+      const totalSI = P + SI;
+      const totalCI = P * Math.pow(1 + R / 100, T);
+      const CI = totalCI - P;
+
+      out.innerText =
+        `Given: Principal (P) = ${P}, Rate (R) = ${R}% p.a., Time (T) = ${T} years\n\n` +
+        `1) Simple Interest (SI):\n` +
+        `   Formula: SI = (P × R × T) / 100\n` +
+        `   SI = (${P} × ${R} × ${T}) / 100 = ${SI.toFixed(2)}\n` +
+        `   Total Amount (A) = P + SI = ${totalSI.toFixed(2)}\n\n` +
+        `2) Compound Interest (Compounded Annually):\n` +
+        `   Formula: A = P × (1 + R/100)^T\n` +
+        `   A = ${P} × (1 + ${R / 100})^${T} = ${totalCI.toFixed(2)}\n` +
+        `   Compound Interest (CI) = A - P = ${CI.toFixed(2)}`;
+      stats.solved++;
+      updateStatsUI();
+    }
+
+    function primeFactors(n) {
+      n = Math.abs(Math.trunc(n));
+      if (n < 2) return [n];
+      const factors = [];
+      let d = 2;
+      while (n >= 2) {
+        if (n % d === 0) {
+          factors.push(d);
+          n /= d;
+        } else {
+          d++;
+        }
+      }
+      return factors;
+    }
+
+    function solveNumbers() {
+      const a = Math.abs(parseInt(document.getElementById('numA').value, 10));
+      const b = Math.abs(parseInt(document.getElementById('numB').value, 10));
+      const out = document.getElementById('mathStepsOutput');
+      if (!a || !b) {
+        out.innerText = 'Please enter two positive non-zero integers.';
+        return;
+      }
+      let x = a, y = b;
+      while (y !== 0) {
+        const t = y;
+        y = x % y;
+        x = t;
+      }
+      const gcd = x;
+      const lcm = (a * b) / gcd;
+      out.innerText =
+        `Numbers: ${a} and ${b}\n` +
+        `Step 1: Prime Factorization:\n` +
+        `        ${a} = ${primeFactors(a).join(' × ')}\n` +
+        `        ${b} = ${primeFactors(b).join(' × ')}\n` +
+        `Step 2: Highest Common Factor (HCF / GCD) = ${gcd}\n` +
+        `Step 3: Lowest Common Multiple (LCM) = (${a} × ${b}) / ${gcd} = ${lcm}`;
+      stats.solved++;
+      updateStatsUI();
+    }
+
+    // ==================== QUESTION BANK & EXAM PAPER GENERATOR ====================
+    const masterQuestionBank = [
+      { subject: 'Maths', q: 'If the roots of the quadratic equation 2x² - kx + 8 = 0 are equal, what is the positive value of k?', options: ['4', '8', '16', '6'], ans: 1, exp: 'For equal roots, Discriminant D = b² - 4ac = 0 → (-k)² - 4(2)(8) = 0 → k² = 64 → k = 8.' },
+      { subject: 'Maths', q: 'What is the 15th term of the Arithmetic Progression (AP): 3, 8, 13, 18, ...?', options: ['68', '73', '78', '83'], ans: 1, exp: 'Here a = 3, d = 5. T₁₅ = a + 14d = 3 + 14(5) = 3 + 70 = 73.' },
+      { subject: 'Maths', q: 'In a right-angled triangle, if the base is 6 cm and perpendicular height is 8 cm, what is the length of the hypotenuse?', options: ['10 cm', '12 cm', '14 cm', '9 cm'], ans: 0, exp: 'By Pythagoras Theorem: h = √(6² + 8²) = √(36 + 64) = √100 = 10 cm.' },
+      { subject: 'Maths', q: 'What is the value of sin²(30°) + cos²(30°)?', options: ['0', '1/2', '1', '√3/2'], ans: 2, exp: 'By the fundamental trigonometric identity, sin²θ + cos²θ = 1 for all angles θ.' },
+      { subject: 'Maths', q: 'The volume of a cylinder with radius 7 cm and height 10 cm (taking π = 22/7) is:', options: ['440 cm³', '1540 cm³', '770 cm³', '3080 cm³'], ans: 1, exp: 'Volume = πr²h = (22/7) × 7 × 7 × 10 = 22 × 70 = 1540 cm³.' },
+      { subject: 'Science', q: 'Which cell organelle is known as the "Powerhouse of the Cell" because it generates ATP?', options: ['Ribosome', 'Lysosome', 'Mitochondria', 'Golgi Apparatus'], ans: 2, exp: 'Mitochondria generate cellular energy in the form of ATP (Adenosine Triphosphate).' },
+      { subject: 'Science', q: 'According to Ohm’s Law, if a potential difference of 12 V is applied across a resistor of 4 Ω, the electric current flowing through it is:', options: ['48 A', '3 A', '0.33 A', '8 A'], ans: 1, exp: 'By Ohm’s Law, I = V / R = 12 V / 4 Ω = 3 A.' },
+      { subject: 'Science', q: 'What is the pH value of pure neutral water at 25°C?', options: ['0', '5.5', '7.0', '14.0'], ans: 2, exp: 'Pure water is neutral and has a pH value of exactly 7.0 at 25°C.' },
+      { subject: 'Science', q: 'Which gas is released as a byproduct during the process of photosynthesis in green plants?', options: ['Carbon dioxide', 'Nitrogen', 'Oxygen', 'Hydrogen'], ans: 2, exp: 'Plants absorb CO₂ and water and release Oxygen (O₂) during photosynthesis.' },
+      { subject: 'Science', q: 'The SI unit of electric power is:', options: ['Joule', 'Watt', 'Volt', 'Ampere'], ans: 1, exp: 'Electric power (P = V × I) is measured in Watts (W).' },
+      { subject: 'English', q: 'Choose the grammatically correct sentence:', options: ['Neither of the boys have completed their homework.', 'Neither of the boys has completed his homework.', 'Neither of the boys were present.', 'Neither boy are ready.'], ans: 1, exp: '"Neither of..." takes a singular verb ("has") and singular pronoun ("his").' },
+      { subject: 'English', q: 'Identify the passive voice form of: "The chef prepared a delicious meal."', options: ['A delicious meal is prepared by the chef.', 'A delicious meal was prepared by the chef.', 'A delicious meal had been prepared by the chef.', 'The chef was preparing a delicious meal.'], ans: 1, exp: 'Simple Past active ("prepared") converts to "was/were + V₃" ("was prepared").' },
+      { subject: 'English', q: 'Fill in the blank with the correct article: "He is ___ honest officer who graduated from ___ university."', options: ['a, an', 'an, a', 'an, an', 'the, an'], ans: 1, exp: '"Honest" begins with a vowel sound (/ɒ/), so it takes "an". "University" begins with a consonant sound (/juː/), so it takes "a".' },
+      { subject: 'GK', q: 'On which date did the Constitution of India come into effect?', options: ['15 August 1947', '26 November 1949', '26 January 1950', '2 October 1950'], ans: 2, exp: 'The Constitution was adopted on 26 November 1949 and came into force on 26 January 1950.' },
+      { subject: 'GK', q: 'Which part of the computer’s CPU performs all arithmetic calculations and logical comparisons?', options: ['Control Unit (CU)', 'Arithmetic Logic Unit (ALU)', 'Hard Disk Drive', 'ROM'], ans: 1, exp: 'The Arithmetic Logic Unit (ALU) executes all mathematical and logical operations inside the CPU.' }
+    ];
+
+    let currentPaperQuestions = [];
+    let userQuizAnswers = {};
+
+    function generateExamPaper() {
+      const subj = document.getElementById('examSubject').value;
+      const count = parseInt(document.getElementById('examCount').value, 10);
+      let pool = subj === 'All' ? [...masterQuestionBank] : masterQuestionBank.filter(q => q.subject === subj);
+
+      // If subject filter has fewer than count, supplement from remaining questions
+      if (pool.length < count) {
+        const extra = masterQuestionBank.filter(q => !pool.includes(q));
+        pool = [...pool, ...extra];
+      }
+
+      // Shuffle
+      pool.sort(() => Math.random() - 0.5);
+      currentPaperQuestions = pool.slice(0, count);
+      userQuizAnswers = {};
+      document.getElementById('examScoreBanner').classList.add('hidden');
+      document.getElementById('examAnswerKeyBox').classList.add('hidden');
+      stats.papers++;
+      updateStatsUI();
+      renderCurrentExam();
+    }
+
+    function renderCurrentExam() {
+      if (currentPaperQuestions.length === 0) {
+        generateExamPaper();
+        return;
+      }
+      const mode = document.getElementById('examMode').value;
+      const subj = document.getElementById('examSubject').value;
+      const totalMarks = currentPaperQuestions.length * 5;
+      document.getElementById('paperHeaderMeta').innerText =
+        `Subject: ${subj} • Questions: ${currentPaperQuestions.length} • Maximum Marks: ${totalMarks}`;
+      document.getElementById('submitQuizBtn').classList.toggle('hidden', mode !== 'interactive');
+
+      const listEl = document.getElementById('examQuestionsList');
+      listEl.innerHTML = currentPaperQuestions.map((item, qIdx) => {
+        if (mode === 'printable') {
+          return `
+            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 space-y-2">
+              <div class="flex justify-between items-start gap-2">
+                <p class="text-sm font-semibold text-white">Q${qIdx + 1}. ${item.q}</p>
+                <span class="text-xs font-mono text-slate-400 shrink-0">[5 Marks]</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1 text-xs text-slate-300">
+                ${item.options.map((opt, oIdx) => `<div>(${String.fromCharCode(65 + oIdx)}) ${opt}</div>`).join('')}
+              </div>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3" id="qcard-${qIdx}">
+              <div class="flex justify-between items-start gap-2">
+                <p class="text-sm font-semibold text-white"><span class="text-indigo-400">Q${qIdx + 1}.</span> ${item.q}</p>
+                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 shrink-0">${item.subject}</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                ${item.options.map((opt, oIdx) => {
+                  const selected = userQuizAnswers[qIdx] === oIdx;
+                  const cls = selected
+                    ? 'border-indigo-500 bg-indigo-600/20 text-white'
+                    : 'border-slate-800 bg-slate-950/80 text-slate-300 hover:border-slate-700';
+                  return `
+                    <button onclick="selectQuizOption(${qIdx}, ${oIdx})" class="text-left px-3 py-2 rounded-lg border text-xs font-medium transition ${cls}">
+                      <span class="font-bold mr-1">${String.fromCharCode(65 + oIdx)}.</span> ${opt}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+              <div id="qexp-${qIdx}" class="hidden text-xs p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-300"></div>
+            </div>
+          `;
+        }
+      }).join('');
+
+      // Populate Answer Key
+      const keyEl = document.getElementById('examAnswerKeyContent');
+      keyEl.innerHTML = currentPaperQuestions.map((item, idx) => `
+        <div class="p-2 rounded bg-slate-900/90 border border-slate-800">
+          <strong>Q${idx + 1}: (${String.fromCharCode(65 + item.ans)}) ${item.options[item.ans]}</strong> — ${item.exp}
+        </div>
+      `).join('');
+    }
+
+    function selectQuizOption(qIdx, oIdx) {
+      userQuizAnswers[qIdx] = oIdx;
+      renderCurrentExam();
+    }
+
+    function submitInteractiveQuiz() {
+      let correct = 0;
+      currentPaperQuestions.forEach((item, qIdx) => {
+        const chosen = userQuizAnswers[qIdx];
+        const expBox = document.getElementById('qexp-' + qIdx);
+        if (!expBox) return;
+        expBox.classList.remove('hidden');
+        if (chosen === item.ans) {
+          correct++;
+          expBox.className = 'text-xs p-2.5 rounded-lg bg-emerald-950/70 border border-emerald-500/40 text-emerald-200';
+          expBox.innerText = '✓ Correct! ' + item.exp;
+        } else {
+          expBox.className = 'text-xs p-2.5 rounded-lg bg-rose-950/70 border border-rose-500/40 text-rose-200';
+          expBox.innerText = `✗ Correct Answer: (${String.fromCharCode(65 + item.ans)}) ${item.options[item.ans]}. ${item.exp}`;
+        }
+      });
+      const banner = document.getElementById('examScoreBanner');
+      banner.classList.remove('hidden');
+      document.getElementById('examScoreTitle').innerText =
+        `Result: ${correct} / ${currentPaperQuestions.length} Correct (${correct * 5} / ${currentPaperQuestions.length * 5} Marks)`;
+      showToast(`Quiz graded! You scored ${correct} out of ${currentPaperQuestions.length}.`);
+    }
+
+    function toggleAnswerKey() {
+      document.getElementById('examAnswerKeyBox').classList.toggle('hidden');
+    }
+
+    function downloadQuestionPaperTxt() {
+      if (currentPaperQuestions.length === 0) generateExamPaper();
+      let txt = 'STUDYNOVA MODEL QUESTION PAPER\n====================================\n\n';
+      currentPaperQuestions.forEach((item, idx) => {
+        txt += `Q${idx + 1}. ${item.q} [5 Marks]\n`;
+        item.options.forEach((opt, oIdx) => {
+          txt += `   (${String.fromCharCode(65 + oIdx)}) ${opt}\n`;
+        });
+        txt += '\n';
+      });
+      txt += '\nANSWER KEY & EXPLANATIONS\n=========================\n';
+      currentPaperQuestions.forEach((item, idx) => {
+        txt += `Q${idx + 1}: (${String.fromCharCode(65 + item.ans)}) ${item.options[item.ans]} - ${item.exp}\n`;
+      });
+      downloadBlob(txt, 'question_paper_with_answers.txt', 'text/plain');
+    }
+
+    // ==================== GRAMMAR & WRITING CHECKER ====================
+    const grammarRules = [
+      { regex: /\btheir is\b/gi, replacement: 'there is', reason: 'Use "there is" to indicate existence instead of possessive "their".' },
+      { regex: /\btheir are\b/gi, replacement: 'there are', reason: 'Use "there are" instead of possessive "their".' },
+      { regex: /\ba lot of students who recieve\b/gi, replacement: 'many students who receive', reason: 'Spelling fix: "receive" follows the "i before e except after c" rule.' },
+      { regex: /\brecieve\b/gi, replacement: 'receive', reason: 'Spelling error: "recieve" should be spelled "receive".' },
+      { regex: /\bseperate\b/gi, replacement: 'separate', reason: 'Spelling error: "seperate" should be spelled "separate".' },
+      { regex: /\bdefinately\b/gi, replacement: 'definitely', reason: 'Spelling error: "definately" should be spelled "definitely".' },
+      { regex: /\boccured\b/gi, replacement: 'occurred', reason: 'Spelling error: "occured" has a double "r" ("occurred").' },
+      { regex: /\buntill\b/gi, replacement: 'until', reason: 'Spelling error: "untill" has only one "l" ("until").' },
+      { regex: /\balot\b/gi, replacement: 'a lot', reason: '"a lot" is always written as two separate words.' },
+      { regex: /\bdont\b/gi, replacement: "don't", reason: 'Missing apostrophe in contraction "don\'t".' },
+      { regex: /\bdoesnt\b/gi, replacement: "doesn't", reason: 'Missing apostrophe in contraction "doesn\'t".' },
+      { regex: /\bcant\b/gi, replacement: "can't", reason: 'Missing apostrophe in contraction "can\'t".' },
+      { regex: /\bthere study\b/gi, replacement: 'their study', reason: 'Use possessive "their" before a noun ("their study").' },
+      { regex: /\bhe go\b/gi, replacement: 'he goes', reason: 'Subject-verb agreement: third-person singular "he" requires "goes".' },
+      { regex: /\bshe go\b/gi, replacement: 'she goes', reason: 'Subject-verb agreement: third-person singular "she" requires "goes".' },
+      { regex: /\band have a apple\b/gi, replacement: 'and has an apple', reason: 'Use singular verb "has" and article "an" before vowel sound "apple".' },
+      { regex: /\ba apple\b/gi, replacement: 'an apple', reason: 'Use "an" before words starting with a vowel sound.' },
+      { regex: /\ba umbrella\b/gi, replacement: 'an umbrella', reason: 'Use "an" before words starting with a vowel sound.' },
+      { regex: /\b(\w+)\s+\1\b/gi, replacement: '$1', reason: 'Repeated consecutive word detected.' }
+    ];
+
+    let detectedFixes = [];
+
+    function analyzeGrammar() {
+      const text = document.getElementById('grammarInput').value;
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      const chars = text.length;
+      const sents = text.trim() ? (text.match(/[.!?]+/g) || [1]).length : 0;
+
+      document.getElementById('gramWordCount').innerText = words;
+      document.getElementById('gramCharCount').innerText = chars;
+      document.getElementById('gramSentCount').innerText = sents;
+
+      detectedFixes = [];
+
+      // Check capitalization at start of sentences
+      if (text.length > 0 && /^[a-z]/.test(text.trim())) {
+        const firstWord = text.trim().split(/\s+/)[0];
+        const capWord = firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
+        detectedFixes.push({
+          found: firstWord,
+          suggest: capWord,
+          reason: 'Capitalize the first word of the paragraph.',
+          applyFn: (t) => t.replace(firstWord, capWord)
+        });
+      }
+
+      grammarRules.forEach(rule => {
+        const matches = text.match(rule.regex);
+        if (matches) {
+          matches.forEach(m => {
+            detectedFixes.push({
+              found: m,
+              suggest: m.replace(rule.regex, rule.replacement),
+              reason: rule.reason,
+              regex: rule.regex,
+              replacement: rule.replacement
+            });
+          });
+        }
+      });
+
+      const badge = document.getElementById('grammarIssueBadge');
+      badge.innerText = detectedFixes.length === 0 ? '✓ Clean' : `${detectedFixes.length} suggestions`;
+      badge.className = detectedFixes.length === 0
+        ? 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300'
+        : 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300';
+
+      const listEl = document.getElementById('grammarIssuesList');
+      if (detectedFixes.length === 0) {
+        listEl.innerHTML = '<div class="p-5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-xs">🎉 Great job! No grammar or spelling errors detected in your text.</div>';
+        return;
+      }
+
+      listEl.innerHTML = detectedFixes.map((item, idx) => `
+        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between gap-2">
+            <div class="text-xs">
+              <span class="line-through text-rose-400 font-semibold">${item.found}</span>
+              <span class="text-slate-400 mx-1">→</span>
+              <span class="text-emerald-400 font-bold">${item.suggest}</span>
+            </div>
+            <button onclick="applySingleGrammarFix(${idx})" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-semibold">
+              Apply Fix
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-400">${item.reason}</p>
+        </div>
+      `).join('');
+    }
+
+    function applySingleGrammarFix(idx) {
+      const fix = detectedFixes[idx];
+      if (!fix) return;
+      const area = document.getElementById('grammarInput');
+      if (fix.applyFn) {
+        area.value = fix.applyFn(area.value);
+      } else if (fix.regex) {
+        area.value = area.value.replace(fix.regex, fix.replacement);
+      }
+      analyzeGrammar();
+    }
+
+    function applyAllGrammarFixes() {
+      const area = document.getElementById('grammarInput');
+      let t = area.value;
+      grammarRules.forEach(rule => {
+        t = t.replace(rule.regex, rule.replacement);
+      });
+      // Capitalize start of sentences
+      t = t.replace(/(^\s*[a-z]|[.!?]\s+[a-z])/g, (m) => m.toUpperCase());
+      area.value = t;
+      analyzeGrammar();
+      showToast('✨ All grammar and spelling fixes applied!');
+    }
+
+    function loadGrammarSample() {
+      document.getElementById('grammarInput').value =
+        'their is a lot of students who recieve bad marks because they dont seperate there study time properly. he go to school everyday and have a apple in the morning.';
+      analyzeGrammar();
+    }
+
+    function copyGrammarText() {
+      const area = document.getElementById('grammarInput');
+      area.select();
+      document.execCommand('copy');
+      showToast('📋 Clean text copied to clipboard!');
+    }
+
+    // ==================== BOOK GENERATOR & NOTES STUDIO ====================
+    let bookChapters = [
+      {
+        title: 'Chapter 1: Foundations & Core Concepts',
+        body: 'Welcome to your personal Book & Study Guide Studio.\n\nKey Highlights:\n1. Use the left sidebar to generate a complete multi-chapter book on any subject or story idea.\n2. Click "Dictate by Voice" to speak your notes hands-free.\n3. Click "Download Complete Book" to save all chapters as a clean file.'
+      },
+      {
+        title: 'Chapter 2: Formulas & Revision Summary',
+        body: 'Important Revision Checklist:\n• Review quadratic and linear equations.\n• Practice 10 timed questions in the Question Paper tab.\n• Verify laws of motion and electricity formulas.'
+      }
+    ];
+    let activeChapterIdx = 0;
+
+    try {
+      const savedBook = localStorage.getItem('vidyaverse_book_chapters');
+      if (savedBook) bookChapters = JSON.parse(savedBook);
+    } catch (e) {}
+
+    function renderBookChapters() {
+      const listEl = document.getElementById('bookChaptersList');
+      listEl.innerHTML = bookChapters.map((ch, idx) => {
+        const active = idx === activeChapterIdx;
+        const cls = active
+          ? 'bg-indigo-600/25 border-indigo-500 text-white'
+          : 'bg-slate-900/80 border-slate-800 text-slate-300 hover:bg-slate-800';
+        return `
+          <div class="flex items-center justify-between px-3 py-2 rounded-xl border text-xs font-medium cursor-pointer transition ${cls}" onclick="selectChapter(${idx})">
+            <span class="truncate pr-2">${idx + 1}. ${ch.title}</span>
+            ${bookChapters.length > 1 ? `<button onclick="event.stopPropagation(); deleteChapter(${idx})" class="text-slate-400 hover:text-rose-400">✕</button>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      const current = bookChapters[activeChapterIdx] || bookChapters[0];
+      document.getElementById('activeChapterTitle').value = current.title;
+      document.getElementById('activeChapterBody').value = current.body;
+      updateChapterWordCount();
+      updateStatsUI();
+    }
+
+    function selectChapter(idx) {
+      activeChapterIdx = idx;
+      renderBookChapters();
+    }
+
+    function saveActiveChapter() {
+      if (!bookChapters[activeChapterIdx]) return;
+      bookChapters[activeChapterIdx].title = document.getElementById('activeChapterTitle').value;
+      bookChapters[activeChapterIdx].body = document.getElementById('activeChapterBody').value;
+      updateChapterWordCount();
+      try {
+        localStorage.setItem('vidyaverse_book_chapters', JSON.stringify(bookChapters));
+      } catch (e) {}
+    }
+
+    function updateChapterWordCount() {
+      const text = document.getElementById('activeChapterBody').value.trim();
+      const count = text ? text.split(/\s+/).length : 0;
+      document.getElementById('chapterWordCount').innerText = count + ' words';
+    }
+
+    function addNewChapter() {
+      bookChapters.push({
+        title: `Chapter ${bookChapters.length + 1}: New Topic`,
+        body: 'Start writing or dictating your chapter content here...'
+      });
+      activeChapterIdx = bookChapters.length - 1;
+      saveBookToStorage();
+      renderBookChapters();
+      showToast('✓ New chapter added!');
+    }
+
+    function deleteChapter(idx) {
+      if (bookChapters.length <= 1) return;
+      bookChapters.splice(idx, 1);
+      if (activeChapterIdx >= bookChapters.length) activeChapterIdx = bookChapters.length - 1;
+      saveBookToStorage();
+      renderBookChapters();
+    }
+
+    function saveBookToStorage() {
+      try {
+        localStorage.setItem('vidyaverse_book_chapters', JSON.stringify(bookChapters));
+      } catch (e) {}
+    }
+
+    function generateBookFromTemplate() {
+      const topic = document.getElementById('bookTopicInput').value.trim() || 'Complete Academic Mastery';
+      const type = document.getElementById('bookTemplateType').value;
+
+      if (type === 'textbook') {
+        bookChapters = [
+          {
+            title: `Chapter 1: Introduction to ${topic}`,
+            body: `# Introduction to ${topic}\n\n${topic} is a foundational subject that connects theoretical principles with practical problem-solving.\n\n## Core Objectives\n1. Understand the fundamental definitions and laws of ${topic}.\n2. Break down complex problems into step-by-step logical stages.\n3. Apply formulas accurately in real-world and exam scenarios.`
+          },
+          {
+            title: `Chapter 2: Key Principles & Formulas of ${topic}`,
+            body: `# Essential Principles & Formulas\n\nIn this chapter, we organize the core rules and structured frameworks of ${topic}:\n\n• Principle 1: Foundational conservation and balance relationships.\n• Principle 2: Quantitative measurement and unit conversion.\n• Principle 3: Analytical verification of results.`
+          },
+          {
+            title: `Chapter 3: Worked Examples & Step-by-Step Solutions`,
+            body: `# Worked Examples in ${topic}\n\nExample 1:\nGiven a standard problem in ${topic}, always begin by listing the known values, identifying the target unknown, and selecting the governing equation.\n\nExample 2:\nVerify the units and substitute numerical values carefully before simplifying.`
+          },
+          {
+            title: `Chapter 4: Common Mistakes & Exam Strategy`,
+            body: `# High-Scoring Exam Strategy for ${topic}\n\n• Always write the formula clearly before substituting numbers.\n• Draw neat labeled diagrams wherever applicable.\n• Reserve the final 10 minutes to double-check calculations and units.`
+          },
+          {
+            title: `Chapter 5: Practice Questions & Revision Summary`,
+            body: `# Quick Revision Checklist\n\n1. Define the primary laws of ${topic} in your own words.\n2. Solve 5 numerical problems without looking at the formula sheet.\n3. Summarize key takeaways for rapid morning revision.`
+          }
+        ];
+      } else if (type === 'story') {
+        bookChapters = [
+          {
+            title: `Chapter 1: The Discovery of ${topic}`,
+            body: `The morning sky over the city was quiet when Aarav first uncovered the blueprint related to ${topic}. Inside the old laboratory notebook lay diagrams that no ordinary machine could explain...`
+          },
+          {
+            title: `Chapter 2: Building the Prototype`,
+            body: `Working late into the evening, Aarav tested each circuit and equation. Every failure taught a new lesson, bringing the project closer to reality...`
+          },
+          {
+            title: `Chapter 3: The Unexpected Challenge`,
+            body: `Just as the system came online, a sudden power surge tested their preparation. Relying on clear thinking and teamwork, they traced the fault to its source...`
+          },
+          {
+            title: `Chapter 4: A New Horizon`,
+            body: `With the challenge resolved, ${topic} proved that patience, curiosity, and steady effort can turn an ambitious vision into a lasting achievement.`
+          }
+        ];
+      } else {
+        bookChapters = [
+          {
+            title: `Unit 1: ${topic} — One-Page Formula Sheet`,
+            body: `Key Formulas & Definitions for ${topic}:\n• Write down every high-weightage theorem.\n• Highlight standard constants and units.`
+          },
+          {
+            title: `Unit 2: ${topic} — Top 10 Expected Questions`,
+            body: `Focus on conceptual definitions, derivations, and numerical word problems that appear frequently in board and competitive exams.`
+          },
+          {
+            title: `Unit 3: ${topic} — Last-Minute Flash Notes`,
+            body: `Quick bullet points for final-day revision before entering the examination hall.`
+          }
+        ];
+      }
+
+      activeChapterIdx = 0;
+      saveBookToStorage();
+      renderBookChapters();
+      showToast(`📖 Generated ${bookChapters.length}-chapter book on "${topic}"!`);
+    }
+
+    function exportFullBook() {
+      const fullText = bookChapters.map((ch, i) => `# ${ch.title}\n\n${ch.body}\n`).join('\n---\n\n');
+      downloadBlob(fullText, 'studynova_complete_book.md', 'text/markdown');
+    }
+
+    function downloadBlob(content, filename, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 15000);
+      showToast('⬇️ Downloaded ' + filename);
+    }
+
+        // ==================== MOBILE APP FRAME SUPPORT ====================
+    let isMobileFrameActive = false;
+
+    function toggleMobileAppFrame() {
+      isMobileFrameActive = !isMobileFrameActive;
+      document.body.classList.toggle('mobile-app-frame', isMobileFrameActive);
+      const btn = document.getElementById('mobileViewToggleBtn');
+      if (btn) {
+        btn.innerText = isMobileFrameActive ? '🖥️ Desktop View' : '📱 Phone View';
+      }
+      showToast(isMobileFrameActive ? '📱 Switched to Mobile App preview!' : '🖥️ Switched to Full Desktop view!');
+    }
+
+    // ==================== INITIALIZATION ====================
+    window.onload = function() {
+      if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      }
+      updatePomoDisplay();
+      renderStudyCards();
+      solveQuadratic();
+      generateExamPaper();
+      analyzeGrammar();
+      renderBookChapters();
+      updateStatsUI();
+    };
+  </script>
+</body>
+</html>
